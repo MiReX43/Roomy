@@ -1,26 +1,23 @@
-// Roomy Premium Interactions
+// РУММИ Premium Interactions
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Умный Observer для анимаций при скролле (Staggered Reveal)
+    // 1. Умный Observer для анимаций при скролле (Плавное появление)
     const observerOptions = {
-        threshold: 0.1,
+        threshold: 0.15,
         rootMargin: "0px 0px -50px 0px"
     };
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.visibility = 'visible';
-                entry.target.classList.add('fade-in');
+                entry.target.classList.add('is-visible');
                 observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // Выбираем все элементы, которые должны появиться при скролле (кроме тех, что уже на первом экране)
-    document.querySelectorAll('.section-preview .stagger-item, .inspiration .stagger-item, .final-cta .stagger-item').forEach(el => {
-        el.style.visibility = 'hidden';
-        el.classList.remove('stagger-item', 'fade-in'); // Сбрасываем начальные CSS анимации
+    // Подключаем наблюдение за элементами со скроллом
+    document.querySelectorAll('.scroll-reveal').forEach(el => {
         observer.observe(el);
     });
 
@@ -43,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    console.log('Roomy Premium UI initialized ✨');
+    console.log('РУММИ Premium UI initialized ✨');
 });
 
 // Глобальная функция для имитации загрузки в конструкторе
