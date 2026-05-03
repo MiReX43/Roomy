@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Готовый дизайн</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: url('images/Main.jpg') center/cover no-repeat fixed;
+        }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(234, 227, 221, 0.4);
+            backdrop-filter: blur(15px);
+            z-index: 0;
+        }
+        .gallery-modal {
+            width: 95%;
+            max-width: 1400px;
+            padding: 50px;
+            position: relative;
+            z-index: 1;
+            border-radius: var(--radius-lg);
+            max-height: 95vh;
+            overflow-y: auto;
+        }
+        .gallery-modal::-webkit-scrollbar {
+            width: 8px;
+        }
+        .gallery-modal::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        .close-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            width: 36px;
+            height: 36px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: var(--transition-bounce);
+            z-index: 10;
+        }
+        .close-btn:hover {
+            background: rgba(0,0,0,0.1);
+            transform: scale(1.1) rotate(90deg);
+        }
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 1.5fr;
+            gap: 50px;
+        }
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+        .image-box {
+            background: rgba(255,255,255,0.7); /* Более светлый фон для пустых мест */
+            width: 100%;
+            height: 600px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-box img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain; 
+            border-radius: var(--radius-md);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: transform 10s ease;
+        }
+        .image-box:hover img {
+            transform: scale(1.05);
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 40px;
+        }
+
+        /* Адаптивность (Responsiveness) */
+        @media (max-width: 1100px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+            .image-box {
+                height: 400px; 
+            }
+            .gallery-modal { padding: 30px; }
+        }
+
+        @media (max-width: 768px) {
+            .image-box {
+                height: 300px; 
+            }
+            .section-title { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay"></div>
+
+    <div class="gallery-modal glass-panel fade-in">
+        <a href="index.html" class="close-btn">&times;</a>
+        
+        <div class="grid-layout">
+            <div class="left-col stagger-item" style="animation-delay: 0.1s;">
+                <div class="section-title">Готовый дизайн</div>
+                <div class="image-box" style="background: transparent; box-shadow: none;">
+                    <img src="images/Скандинавский.jpg" alt="Готовый дизайн">
+                </div>
+            </div>
+            
+            <div class="right-col stagger-item" style="animation-delay: 0.3s;">
+                <div class="section-title">Ссылки на мебель и интерьера</div>
+                <div class="image-box" style="border: 2px dashed rgba(0,0,0,0.1); background: rgba(255,255,255,0.3);">
+                    <span style="color: var(--text-muted); font-size: 1.2rem;">Здесь будет схема и товары</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer stagger-item" style="animation-delay: 0.5s;">
+            <a href="projects.html" class="btn-light hover-card" style="font-size: 1.1rem; padding: 14px 40px;">→ Мой интерьер</a>
+        </div>
+    </div>
+</body>
+</html>

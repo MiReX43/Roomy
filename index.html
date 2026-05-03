@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roomy — Примерка дизайна по фото</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        .hero {
+            position: relative;
+            height: 90vh;
+            background: url('images/Main.jpg') center/cover no-repeat fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(234, 227, 221, 0.2), rgba(234, 227, 221, 0.7));
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            padding: 50px;
+            border-radius: var(--radius-lg);
+        }
+        .hero h1 {
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(255,255,255,0.5);
+        }
+        .hero p {
+            font-size: 1.15rem;
+            margin-bottom: 35px;
+            color: var(--text-dark);
+            opacity: 0.9;
+        }
+
+        .section-preview {
+            padding: 100px 20px;
+            text-align: center;
+            background: var(--primary-bg);
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+        .section-preview h2 {
+            margin-bottom: 50px;
+        }
+        .preview-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .preview-mockup {
+            width: 95%;
+            max-width: 1300px;
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            pointer-events: none; /* Неинтерактивно */
+            user-select: none;
+            text-align: left;
+            /* На десктопе немного масштабируем, чтобы поместилось элегантно */
+            transform: scale(0.85); 
+            transform-origin: top center;
+            margin-bottom: -50px; 
+        }
+        
+        /* Стили мокапа (обновленная копия из create.html) */
+        .mockup-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 50px; }
+        .mock-title { font-family: var(--font-heading); font-size: 1.4rem; margin-bottom: 20px; color: var(--text-dark); }
+        .mock-sizes-grid { display: grid; grid-template-columns: auto 1fr auto 1fr; gap: 15px 25px; align-items: center; }
+        .mock-sizes-grid label { font-family: var(--font-heading); font-size: 1rem; color: var(--text-dark); }
+        .mock-input { background: rgba(255,255,255,0.5); border-radius: 20px; height: 38px; width: 100%; border: 1px solid rgba(0,0,0,0.05); }
+        .mock-textarea { background: rgba(255,255,255,0.5); border-radius: 8px; height: 100px; width: 100%; border: 1px solid rgba(0,0,0,0.05); }
+        .mock-upload { background: rgba(255,255,255,0.5); border: 2px dashed rgba(0,0,0,0.15); height: 380px; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #666; font-family: var(--font-heading); font-size: 1.1rem; }
+        .mock-upload .mock-icon { font-size: 3rem; margin-bottom: 15px; }
+        .mock-styles-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 30px; }
+        .mock-style-card { position: relative; border-radius: 8px; overflow: hidden; height: 140px; }
+        .mock-style-card img { width: 100%; height: 100%; object-fit: cover; }
+        .mock-style-name { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: #fff; font-size: 0.8rem; text-align: center; padding: 20px 4px 8px; font-weight: 500; }
+        .mock-buttons { display: flex; gap: 20px; }
+        .mock-btn-dark { background: #232832; color: #fff; padding: 12px 20px; border-radius: 20px; flex: 1; text-align: center; }
+        .mock-btn-light { background: #bea78f; color: #fff; padding: 12px 20px; border-radius: 20px; flex: 1; text-align: center; }
+
+        .inspiration {
+            text-align: center;
+            padding: 80px 20px;
+            background: var(--white);
+        }
+        .inspiration h2 {
+            margin-bottom: 50px;
+        }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+        .card {
+            background: var(--primary-bg);
+            padding: 50px 40px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 250px;
+        }
+        .card p {
+            font-size: 1.05rem;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+            line-height: 1.5;
+        }
+
+        .final-cta {
+            text-align: center;
+            padding: 100px 20px;
+            background: var(--primary-bg);
+        }
+        .final-cta p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        /* Навигация */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 10;
+        }
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-style: italic;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(255,255,255,0.8);
+        }
+
+        /* Адаптивность для главной страницы (включая мокап) */
+        @media (max-width: 1100px) {
+            .mockup-grid { grid-template-columns: 1fr; gap: 30px; }
+            .mock-upload { height: 250px; }
+            .preview-mockup { transform: scale(0.9); margin-bottom: -50px; padding: 30px; }
+        }
+        @media (max-width: 768px) {
+            .cards-grid { grid-template-columns: 1fr; }
+            .mock-sizes-grid { grid-template-columns: 1fr; gap: 10px; }
+            .mock-styles-grid { grid-template-columns: repeat(2, 1fr); }
+            .mock-buttons { flex-direction: column; }
+            .mock-style-card { height: 120px; }
+            .preview-mockup { transform: scale(1); margin-bottom: 0; width: 100%; padding: 20px; }
+            .hero-content { padding: 30px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="fade-in">
+        <a href="index.html" class="logo">ROOMY</a>
+        <div class="nav-right">
+            <a href="auth.html" class="btn-light hover-card">Войти</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content glass-panel fade-in delay-1">
+                <h1 class="stagger-item" style="animation-delay: 0.2s;">Примерка дизайна по фото</h1>
+                <p class="stagger-item" style="animation-delay: 0.3s;">Получите разные варианты дизайна своей комнаты за пару минут</p>
+                <div class="stagger-item" style="animation-delay: 0.4s;">
+                    <a href="create.html" class="btn-dark hover-card" style="font-size: 1.1rem; padding: 16px 40px;">Попробовать</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section-preview">
+            <h2 class="stagger-item">Попробуйте прямо сейчас</h2>
+            
+            <div class="preview-wrapper">
+                <div class="preview-mockup glass-panel stagger-item delay-1">
+                    <div class="mockup-grid">
+                        <!-- Top Left -->
+                        <div>
+                            <div class="mock-title">Введите размеры</div>
+                            <div class="mock-sizes-grid">
+                                <label>Ширина</label><div class="mock-input"></div>
+                                <label>Высота</label><div class="mock-input"></div>
+                                <label>Длина</label><div class="mock-input"></div>
+                                <label>Размер окон</label><div class="mock-input"></div>
+                            </div>
+                        </div>
+                        <!-- Top Right -->
+                        <div>
+                            <div class="mock-title">Дополнительная информация</div>
+                            <div class="mock-textarea"></div>
+                        </div>
+                        <!-- Bottom Left -->
+                        <div>
+                            <div class="mock-title">Добавьте фото комнаты</div>
+                            <div class="mock-upload">
+                                <div class="mock-icon">📸</div>
+                                <span>Перетащите изображение</span>
+                            </div>
+                        </div>
+                        <!-- Bottom Right -->
+                        <div>
+                            <div class="mock-title">Выберите стиль</div>
+                            <div class="mock-styles-grid">
+                                <div class="mock-style-card"><img src="images/Скандинавский.jpg"><div class="mock-style-name">Скандинавский</div></div>
+                                <div class="mock-style-card"><img src="images/Классика.jpg"><div class="mock-style-name">Классика</div></div>
+                                <div class="mock-style-card"><img src="images/Джапанди.jpg"><div class="mock-style-name">Джапанди</div></div>
+                                <div class="mock-style-card"><img src="images/Экологичный.jpg"><div class="mock-style-name">Экологичный</div></div>
+                                <div class="mock-style-card"><img src="images/Минимализм.jpg"><div class="mock-style-name">Минимализм</div></div>
+                                <div class="mock-style-card"><img src="images/Средиземноморский.jpg"><div class="mock-style-name">Средиземноморье</div></div>
+                                <div class="mock-style-card"><img src="images/Середина 20 века.jpg"><div class="mock-style-name">Середина xx века</div></div>
+                                <div class="mock-style-card"><img src="images/Ар-деко.jpg"><div class="mock-style-name">Ар-Деко</div></div>
+                            </div>
+                            <div class="mock-buttons">
+                                <div class="mock-btn-dark">✨ Создать</div>
+                                <div class="mock-btn-light">→ Мой интерьер</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="create.html" class="btn-dark hover-card stagger-item delay-2" style="margin-top: 100px; position: relative; z-index: 2;">Перейти в конструктор</a>
+        </section>
+
+        <section class="inspiration">
+            <h2 class="stagger-item">Вдохновляйтесь идеями для ремонта</h2>
+            <div class="cards-grid">
+                <div class="card hover-card stagger-item delay-1">
+                    <p>Посмотрите как будет выглядеть ваша комната, до начала ремонта</p>
+                    <a href="gallery.html" class="btn-dark">Примеры работ</a>
+                </div>
+                <div class="card hover-card stagger-item delay-2">
+                    <p>Попробуйте разные стили и найдите тот, который вам подходит больше</p>
+                    <a href="create.html" class="btn-dark">Выбрать стиль</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="final-cta">
+            <p class="stagger-item">Загрузите фото комнаты, чтобы увидеть новый дизайн</p>
+            <div class="stagger-item delay-1">
+                <a href="create.html" class="btn-light hover-card" style="font-size: 1.1rem; padding: 16px 40px;">Попробовать</a>
+            </div>
+        </section>
+    </main>
+
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои проекты</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: url('images/Main.jpg') center/cover no-repeat fixed;
+        }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(234, 227, 221, 0.4);
+            backdrop-filter: blur(8px);
+            z-index: 0;
+        }
+        .projects-modal {
+            width: 100%;
+            max-width: 800px;
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+            border-radius: var(--radius-lg);
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: var(--transition-bounce);
+        }
+        .close-btn:hover {
+            background: rgba(0,0,0,0.1);
+            transform: scale(1.1) rotate(90deg);
+        }
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--text-dark);
+        }
+        
+        .projects-list {
+            margin-bottom: 40px;
+        }
+        .project-item {
+            background: rgba(255,255,255,0.6);
+            height: 70px;
+            border-radius: var(--radius-md);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            padding: 0 25px;
+            color: var(--text-dark);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+        .project-item:hover {
+            background: rgba(255,255,255,0.9);
+            transform: translateX(10px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay"></div>
+
+    <div class="projects-modal glass-panel fade-in">
+        <a href="index.html" class="close-btn">&times;</a>
+        
+        <div class="section-title stagger-item" style="animation-delay: 0.1s;">Мои проекты</div>
+        
+        <div class="projects-list">
+            <div class="project-item stagger-item" style="animation-delay: 0.2s;" onclick="window.location.href='gallery.html'">
+                ✨ Проект 1: Скандинавская гостиная
+            </div>
+            <div class="project-item stagger-item" style="animation-delay: 0.3s;">
+                🔨 Проект 2: Спальня (в процессе)
+            </div>
+            <div class="project-item stagger-item" style="animation-delay: 0.4s;">
+                📝 Проект 3: Черновик
+            </div>
+        </div>
+
+        <div class="modal-footer stagger-item" style="animation-delay: 0.5s;">
+            <a href="create.html" class="btn-dark hover-card">Создать новый</a>
+        </div>
+    </div>
+</body>
+</html>

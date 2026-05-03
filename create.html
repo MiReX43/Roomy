@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание дизайна</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: url('images/Main.jpg') center/cover no-repeat fixed;
+        }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(234, 227, 221, 0.4);
+            backdrop-filter: blur(15px);
+            z-index: 0;
+        }
+        .create-modal {
+            width: 95%;
+            max-width: 1300px; /* Увеличено с 1000px для большей видимости */
+            padding: 50px;
+            position: relative;
+            z-index: 1;
+            border-radius: var(--radius-lg);
+            max-height: 95vh;
+            overflow-y: auto; /* Добавлен скролл для мобильных */
+        }
+        .create-modal::-webkit-scrollbar {
+            width: 8px;
+        }
+        .create-modal::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+        .close-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            width: 36px;
+            height: 36px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: var(--transition-bounce);
+            z-index: 10;
+        }
+        .close-btn:hover {
+            background: rgba(0,0,0,0.1);
+            transform: scale(1.1) rotate(90deg);
+        }
+        
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr; /* Правая колонка со стилями чуть шире */
+            gap: 50px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--text-dark);
+        }
+
+        /* Top Left: Inputs */
+        .sizes-grid {
+            display: grid;
+            grid-template-columns: auto 1fr auto 1fr;
+            gap: 15px 25px;
+            align-items: center;
+        }
+
+        /* Top Right: Additional Info */
+        .textarea-box {
+            background: var(--input-bg);
+            border-radius: var(--radius-md);
+            height: 100px;
+            width: 100%;
+            border: 1px solid var(--border-color);
+            outline: none;
+            padding: 15px;
+            resize: none;
+            font-family: var(--font-body);
+            transition: var(--transition);
+        }
+        .textarea-box:focus {
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(0,0,0,0.03);
+        }
+
+        /* Bottom Left: Upload Area */
+        .upload-area {
+            background: rgba(255,255,255,0.5);
+            border: 2px dashed rgba(0,0,0,0.15);
+            height: 380px; /* Увеличено для баланса */
+            border-radius: var(--radius-md);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+        }
+        .upload-area:hover {
+            background: rgba(255,255,255,0.8);
+            border-color: var(--text-dark);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-soft);
+        }
+        .upload-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease;
+        }
+        .upload-area:hover .upload-icon {
+            transform: translateY(-5px);
+        }
+
+        /* Bottom Right: Styles */
+        .styles-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .style-card {
+            position: relative;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            height: 140px; /* Сильно увеличено для лучшей видимости дизайна */
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .style-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .style-card:hover img {
+            transform: scale(1.1);
+        }
+        .style-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: #fff;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 20px 4px 8px;
+            font-weight: 500;
+        }
+        .style-card::after {
+            content: '✔';
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 3.5rem;
+            color: var(--white);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+        }
+        .style-card.selected::after {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
+        .style-card.selected img {
+            filter: brightness(0.6);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Адаптивность (Responsiveness) */
+        @media (max-width: 1100px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .upload-area { height: 250px; }
+            .create-modal { padding: 30px; }
+        }
+
+        @media (max-width: 768px) {
+            .sizes-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .styles-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .action-buttons {
+                flex-direction: column;
+            }
+            .style-card { height: 120px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay"></div>
+    
+    <div class="create-modal glass-panel fade-in">
+        <a href="index.html" class="close-btn">&times;</a>
+        
+        <div class="grid-layout">
+            <!-- Top Left -->
+            <div class="stagger-item" style="animation-delay: 0.1s;">
+                <div class="section-title">Введите размеры</div>
+                <div class="sizes-grid">
+                    <label>Ширина</label>
+                    <div class="input-group" style="margin: 0;"><input type="text"></div>
+                    <label>Высота</label>
+                    <div class="input-group" style="margin: 0;"><input type="text"></div>
+                    
+                    <label>Длина</label>
+                    <div class="input-group" style="margin: 0;"><input type="text"></div>
+                    <label>Размер окон</label>
+                    <div class="input-group" style="margin: 0;"><input type="text"></div>
+                </div>
+            </div>
+            
+            <!-- Top Right -->
+            <div class="stagger-item" style="animation-delay: 0.2s;">
+                <div class="section-title">Дополнительная информация</div>
+                <textarea class="textarea-box" placeholder="Например: хочу сохранить старый дубовый паркет..."></textarea>
+            </div>
+            
+            <!-- Bottom Left -->
+            <div class="stagger-item" style="animation-delay: 0.3s;">
+                <div class="section-title">Добавьте фото комнаты</div>
+                <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-icon">📸</div>
+                    <span id="uploadText">Перетащите изображение сюда</span>
+                    <span style="font-size: 0.9rem; opacity: 0.6; margin-top: 8px;">или кликните для выбора</span>
+                </div>
+                <input type="file" id="fileInput" style="display: none;">
+            </div>
+            
+            <!-- Bottom Right -->
+            <div class="stagger-item" style="animation-delay: 0.4s;">
+                <div class="section-title">Выберите стиль</div>
+                <div class="styles-grid">
+                    <div class="style-card selected hover-card" onclick="selectStyle(this)">
+                        <img src="images/Скандинавский.jpg" alt="Скандинавский">
+                        <div class="style-name">Скандинавский</div>
+                    </div>
+                    <div class="style-card hover-card" onclick="selectStyle(this)">
+                        <img src="images/Классика.jpg" alt="Классика">
+                        <div class="style-name">Классика</div>
+                    </div>
+                    <div class="style-card hover-card" onclick="selectStyle(this)">
+                        <img src="images/Джапанди.jpg" alt="Джапанди">
+                        <div class="style-name">Джапанди</div>
+                    </div>
+                    <div class="style-card hover-card" onclick="selectStyle(this)">
+                        <img src="images/Экологичный.jpg" alt="Эко">
+                        <div class="style-name">Экологичный</div>
+                    </div>
+                    <div class="style-card hover-card" onclick="selectStyle(this)">
+                        <img src="images/Минимализм.jpg" alt="Минимализм">
+                        <div class="style-name">Минимализм</div>
+                    </div>
+                    <div class="style-card hover-card" onclick="selectStyle(this)">
+                        <img src="images/Средиземноморский.jpg" alt="Средиземноморский">
+                        <div class="style-name">Средиземноморье</div>
+                    </div>
+                    <div class="style-card hover-card" onclick="selectStyle(this)">
+                        <img src="images/Середина 20 века.jpg" alt="Mid-century">
+                        <div class="style-name">Середина xx века</div>
+                    </div>
+                    <div class="style-card hover-card" onclick="selectStyle(this)">
+                        <img src="images/Ар-деко.jpg" alt="Ар-деко">
+                        <div class="style-name">Ар-Деко</div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <a href="gallery.html" class="btn-dark" style="flex: 1; text-align: center;">✨ Создать</a>
+                    <a href="projects.html" class="btn-light" style="flex: 1; text-align: center;">→ Мой интерьер</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectStyle(el) {
+            document.querySelectorAll('.style-card').forEach(card => card.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        document.getElementById('fileInput').addEventListener('change', function() {
+            if(this.files.length > 0) {
+                document.querySelector('.upload-icon').textContent = '✅';
+                document.getElementById('uploadText').textContent = 'Фото успешно загружено!';
+                document.querySelector('.upload-area').style.borderColor = '#2ecc71';
+                document.querySelector('.upload-area').style.background = 'rgba(46, 204, 113, 0.1)';
+            }
+        });
+    </script>
+</body>
+</html>

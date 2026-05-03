@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход / Регистрация</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        body {
+            background: url('images/Main.jpg') center/cover no-repeat fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .modal-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(234, 227, 221, 0.4);
+            backdrop-filter: blur(15px);
+        }
+        .auth-box {
+            position: relative;
+            width: 420px;
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            z-index: 1;
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .close-btn:hover { transform: scale(1.1) rotate(90deg); color: var(--text-dark); }
+        
+        .tabs {
+            display: flex;
+            background: rgba(255,255,255,0.4);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 30px;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+        .tab.active {
+            background: var(--white);
+            color: var(--text-dark);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .submit-btn {
+            width: 100%;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-overlay"></div>
+    
+    <div class="auth-box glass-panel fade-in">
+        <a href="index.html" class="close-btn">&times;</a>
+        
+        <div class="tabs stagger-item" style="animation-delay: 0.1s;">
+            <div class="tab active" id="tabLogin" onclick="switchTab('login')">Войти</div>
+            <div class="tab" id="tabRegister" onclick="switchTab('register')">Регистрация</div>
+        </div>
+
+        <form class="auth-form stagger-item" style="animation-delay: 0.2s;" onsubmit="event.preventDefault(); window.location.href='create.html';">
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" placeholder="example@mail.com" required>
+            </div>
+            <div class="input-group">
+                <label>Пароль</label>
+                <input type="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn-dark submit-btn hover-card" id="submitBtn">Войти</button>
+        </form>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            const btn = document.getElementById('submitBtn');
+            const tabLogin = document.getElementById('tabLogin');
+            const tabRegister = document.getElementById('tabRegister');
+            
+            if (tab === 'login') {
+                tabLogin.classList.add('active');
+                tabRegister.classList.remove('active');
+                btn.textContent = 'Войти';
+            } else {
+                tabRegister.classList.add('active');
+                tabLogin.classList.remove('active');
+                btn.textContent = 'Зарегистрироваться';
+            }
+        }
+    </script>
+</body>
+</html>
