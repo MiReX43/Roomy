@@ -298,7 +298,7 @@
                     </div>
                 </div>
                 <div class="action-buttons">
-                    <a href="gallery.html" class="btn-dark" style="flex: 1; text-align: center;">✨ Создать</a>
+                    <a href="#" class="btn-dark" style="flex: 1; text-align: center;" onclick="generateDesign(event)">✨ Создать</a>
                     <a href="projects.html" class="btn-light" style="flex: 1; text-align: center;">→ Мой интерьер</a>
                 </div>
             </div>
@@ -313,12 +313,28 @@
 
         document.getElementById('fileInput').addEventListener('change', function() {
             if(this.files.length > 0) {
-                document.querySelector('.upload-icon').textContent = '✅';
-                document.getElementById('uploadText').textContent = 'Фото успешно загружено!';
-                document.querySelector('.upload-area').style.borderColor = '#2ecc71';
-                document.querySelector('.upload-area').style.background = 'rgba(46, 204, 113, 0.1)';
+                const uploadArea = document.querySelector('.upload-area');
+                uploadArea.style.padding = '0';
+                uploadArea.style.border = 'none';
+                uploadArea.innerHTML = '<img src="images/Пустая.jpg" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-md);">';
             }
         });
+
+        function generateDesign(e) {
+            e.preventDefault();
+            const overlay = document.createElement('div');
+            overlay.className = 'loading-overlay fade-in';
+            overlay.innerHTML = `
+                <div class="ai-loader"></div>
+                <div class="loading-text">Генерация дизайна...</div>
+                <div class="loading-subtext">Нейросеть анализирует пространство и подбирает мебель</div>
+            `;
+            document.body.appendChild(overlay);
+            
+            setTimeout(() => {
+                window.location.href = 'gallery.html';
+            }, 3000);
+        }
     </script>
 </body>
 </html>
